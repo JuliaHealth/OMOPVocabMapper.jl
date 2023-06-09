@@ -10,14 +10,10 @@ df_concept_relationship = CSV.read("/data/ursa_software/riqi_code/Vocabularies/2
 # Remove decimal points from the ICD codes
 ICD_codes.VALUE = replace.(ICD_codes.VALUE, "." => "")
 df_concept.concept_code = replace.(df_concept.concept_code, "." => "")
+@assert isempty(filter(x->contains(x.VALUE, "."), ICD_codes))
 
 # mapping codes according to the vocabulary to avoid wrong mappings example E000 and E00.0
 code_systems = groupby(ICD_codes, :SYSTEM)
-
-#sanity check
-@assert isempty(filter(row -> row.concept_code == "F81.0", df_concept))
-
-#filter maps to relationship
 df_concept_relationship_mapsto = filter(row -> row.relationship_id == "Maps to", df_concept_relationship)
 df_concept_relationship_mapsto_select = select(df_concept_relationship_mapsto, :concept_id_1, :concept_id_2)
 
@@ -25,13 +21,10 @@ df_concept_relationship_mapsto_select = select(df_concept_relationship_mapsto, :
 #df_concept_condition = filter(row -> row.domain_id == "Condition" || row.domain_id == "Observation", df_concept)
 
 #filter for vocabulary_id  = ICD10CM and ICD9CM
-df_concept_systems = groupby(df_concept, :vocabulary_id)
-df_concept_ICD9 = df_concept_systems[("ICD9CM",)]
-df_concept_ICD10 = df_concept_systems[("ICD10CM",)]
-
 # I removed :concept_name. Is this field haunted?
-df_concept_ICD9_select = select(df_concept_ICD9, :concept_id, :concept_code, :domain_id, :vocabulary_id)
-df_concept_ICD10_select = select(df_concept_ICD10, :concept_id, :concept_code, :domain_id, :vocabulary_id)
+df_concept_systems = groupby(df_concept, :vocabulary_id)
+df_concept_ICD9_select = select(df_concept_systems[("ICD9CM",)], :concept_id, :concept_code, :domain_id, :vocabulary_id)
+df_concept_ICD10_select = select(df_concept_systems[("ICD10CM",)], :concept_id, :concept_code, :domain_id, :vocabulary_id)
 
 #left join ICD codes and df_concept_condition on VALUE and concept_code
 join_ICD9_concept = leftjoin(code_systems[("ICD-9-CM",)], df_concept_ICD9_select, on = Pair(:VALUE, :concept_code))
