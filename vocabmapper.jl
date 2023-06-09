@@ -36,38 +36,23 @@ df_concept_ICD10 = df_concept_systems[("ICD10CM",)]
 df_concept_ICD9_select = select(df_concept_ICD9, :concept_id, :concept_code, :domain_id, :vocabulary_id)
 df_concept_ICD10_select = select(df_concept_ICD10, :concept_id, :concept_code, :domain_id, :vocabulary_id)
 
-#left join ICD9_codes and df_concept_condition on VALUE and concept_code
-
+#left join ICD codes and df_concept_condition on VALUE and concept_code
 join_ICD9_concept = leftjoin(code_systems[("ICD-9-CM",)], df_concept_ICD9_select, on = Pair(:VALUE, :concept_code))
+join_ICD10_concept = leftjoin(code_systems[("ICD-10-CM",)], df_concept_ICD10_select, on = Pair(:VALUE, :concept_code))
 
 # left join join_ICD_concept and df_concept_relationship_mapsto on concept_id and concept_id_1
 join_ICD9_concept_relationship = leftjoin(join_ICD9_concept, df_concept_relationship_mapsto_select, on = Pair(:concept_id, :concept_id_1), matchmissing=:notequal)
-
-ICD9_SNOMED_MAP = rename!(join_ICD9_concept_relationship, :concept_id => :source_concept_id, :concept_id_2 => :OMOP_concept_id)
-
-#missing 4
-count(ismissing,ICD9_SNOMED_MAP.OMOP_concept_id)
-
-
-CSV.write("/data/ursa_research/n3c/mthakkal/radxup_project/highneeds/ICD9_OMOP_MAP.csv", ICD9_SNOMED_MAP)
-
-
-#left join ICD10_codes and df_concept_condition on VALUE and concept_code
-
-join_ICD10_concept = leftjoin(code_systems[("ICD-10-CM",)], df_concept_ICD10_select, on = Pair(:VALUE, :concept_code))
-
-# left join join_ICD10_concept and df_concept_relationship_mapsto on concept_id and concept_id_1
 join_ICD10_concept_relationship = leftjoin(join_ICD10_concept, df_concept_relationship_mapsto_select, on = Pair(:concept_id, :concept_id_1), matchmissing=:notequal)
 
+ICD9_SNOMED_MAP = rename!(join_ICD9_concept_relationship, :concept_id => :source_concept_id, :concept_id_2 => :OMOP_concept_id)
 ICD10_SNOMED_MAP = rename!(join_ICD10_concept_relationship, :concept_id => :source_concept_id, :concept_id_2 => :OMOP_concept_id)
 
-#missing 3
-count(ismissing,ICD10_SNOMED_MAP.OMOP_concept_id)
+# Checks
+@assert count(ismissing,ICD9_SNOMED_MAP.OMOP_concept_id) == 4
+@assert count(ismissing,ICD10_SNOMED_MAP.OMOP_concept_id) == 3
 
-
+CSV.write("/data/ursa_research/n3c/mthakkal/radxup_project/highneeds/ICD9_OMOP_MAP.csv", ICD9_SNOMED_MAP)
 CSV.write("/data/ursa_research/n3c/mthakkal/radxup_project/highneeds/ICD10_OMOP_MAP.csv", ICD10_SNOMED_MAP)
-
-
 
 #/data/ursa_software/riqi_code/Vocabularies/20230301/ ---- vocab files
 
