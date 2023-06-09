@@ -1,5 +1,9 @@
 @info "Loading packages..."
-using CSV, DataFrames, StatsBase, Query, Dates
+using CSV
+using DataFrames
+using StatsBase
+using Query
+using Dates
 
 @info "Loading CSV files..."
 ICD_codes = CSV.read("/data/ursa_research/radxup/daluthge/highneeds.icd.csv.2023.05.05", DataFrame) #21740 | Unique = 20306
