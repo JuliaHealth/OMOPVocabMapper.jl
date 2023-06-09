@@ -30,6 +30,7 @@ df_concept_systems = groupby(df_concept, :vocabulary_id)
 df_concept_ICD9_select = select(df_concept_systems[("ICD9CM",)], :concept_id, :concept_code, :domain_id, :vocabulary_id)
 df_concept_ICD10_select = select(df_concept_systems[("ICD10CM",)], :concept_id, :concept_code, :domain_id, :vocabulary_id)
 
+@info "Combining tables..."
 #left join ICD codes and df_concept_condition on VALUE and concept_code
 join_ICD9_concept = leftjoin(code_systems[("ICD-9-CM",)], df_concept_ICD9_select, on = Pair(:VALUE, :concept_code))
 join_ICD10_concept = leftjoin(code_systems[("ICD-10-CM",)], df_concept_ICD10_select, on = Pair(:VALUE, :concept_code))
