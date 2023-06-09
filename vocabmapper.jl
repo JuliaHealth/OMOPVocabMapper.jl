@@ -3,29 +3,22 @@ using CSV, DataFrames, StatsBase, Query, Dates
 
 #load the csv files
 ICD_codes = CSV.read("/data/ursa_research/radxup/daluthge/highneeds.icd.csv.2023.05.05", DataFrame) #21740 | Unique = 20306
+df_concept = CSV.read("/data/ursa_software/riqi_code/Vocabularies/20230301/CONCEPT.csv", DataFrame)
+df_concept_relationship = CSV.read("/data/ursa_software/riqi_code/Vocabularies/20230301/CONCEPT_RELATIONSHIP.csv", DataFrame)
 
-#there are few VALUES with decimal points so removing them
+# Remove decimal points from the ICD codes
 ICD_codes.VALUE = replace.(ICD_codes.VALUE, "." => "")
+df_concept.concept_code = replace.(df_concept.concept_code, "." => "")
 
 # mapping codes according to the vocabulary to avoid wrong mappings example E000 and E00.0
 ICD9_codes = filter(row -> row.SYSTEM == "ICD-9-CM", ICD_codes)
-
 ICD10_codes = filter(row -> row.SYSTEM == "ICD-10-CM", ICD_codes)
-
-# import vocab tables
-df_concept = CSV.read("/data/ursa_software/riqi_code/Vocabularies/20230301/CONCEPT.csv", DataFrame)
-
-df_concept_relationship = CSV.read("/data/ursa_software/riqi_code/Vocabularies/20230301/CONCEPT_RELATIONSHIP.csv", DataFrame)
-
-# Remove decimal points from the ICD-10 codes in concept table
-df_concept.concept_code = replace.(df_concept.concept_code, "." => "")
 
 #sanity check
 filter(row -> row.concept_code == "F81.0", df_concept)
 
 #filter maps to relationship
 df_concept_relationship_mapsto = filter(row -> row.relationship_id == "Maps to", df_concept_relationship)
-
 df_concept_relationship_mapsto_select = select(df_concept_relationship_mapsto, :concept_id_1, :concept_id_2)
 
 #filter the concept.csv for domain = condition
@@ -33,11 +26,9 @@ df_concept_relationship_mapsto_select = select(df_concept_relationship_mapsto, :
 
 #filter for vocabulary_id  = ICD10CM and ICD9CM
 df_concept_ICD9 = filter(row -> (row.vocabulary_id == "ICD9CM"), df_concept)
-
 df_concept_ICD10 = filter(row -> (row.vocabulary_id == "ICD10CM"), df_concept)
 
 df_concept_ICD9_select = select(df_concept_ICD9, :concept_id, :concept_code, :concept_name, :domain_id, :vocabulary_id)
-
 df_concept_ICD10_select = select(df_concept_ICD10, :concept_id, :concept_code, :concept_name, :domain_id, :vocabulary_id)
 
 
