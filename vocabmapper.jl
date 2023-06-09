@@ -34,7 +34,7 @@ df_concept_ICD10_select = select(df_concept_ICD10, :concept_id, :concept_code, :
 
 #left join ICD9_codes and df_concept_condition on VALUE and concept_code
 
-join_ICD9_concept = join(ICD9_codes, df_concept_ICD9_select, on = (:VALUE, :concept_code), kind = :left)
+join_ICD9_concept = leftjoin(ICD9_codes, df_concept_ICD9_select, on = (:VALUE, :concept_code))
 
 # left join join_ICD_concept and df_concept_relationship_mapsto on concept_id and concept_id_1
 join_ICD9_concept_relationship = join(join_ICD9_concept, df_concept_relationship_mapsto_select, on = (:concept_id, :concept_id_1), kind = :left)
@@ -50,7 +50,7 @@ CSV.write("/data/ursa_research/n3c/mthakkal/radxup_project/highneeds/ICD9_OMOP_M
 
 #left join ICD10_codes and df_concept_condition on VALUE and concept_code
 
-join_ICD10_concept = join(ICD10_codes, df_concept_ICD10_select, on = (:VALUE, :concept_code), kind = :left)
+join_ICD10_concept = leftjoin(ICD10_codes, df_concept_ICD10_select, on = (:VALUE, :concept_code))
 
 # left join join_ICD10_concept and df_concept_relationship_mapsto on concept_id and concept_id_1
 join_ICD10_concept_relationship = join(join_ICD10_concept, df_concept_relationship_mapsto_select, on = (:concept_id, :concept_id_1), kind = :left)
