@@ -2,7 +2,7 @@ using CSV, DataFrames, StatsBase, Query, Dates
 
 
 #load the csv files
-ICD_codes = CSV.read("/data/ursa_research/radxup/daluthge/highneeds.icd.csv.2023.05.05") |> DataFrame #21740 | Unique = 20306
+ICD_codes = CSV.read("/data/ursa_research/radxup/daluthge/highneeds.icd.csv.2023.05.05", DataFrame) #21740 | Unique = 20306
 
 #there are few VALUES with decimal points so removing them
 ICD_codes.VALUE = replace.(ICD_codes.VALUE, "." => "")
@@ -13,9 +13,9 @@ ICD9_codes = filter(row -> row.SYSTEM == "ICD-9-CM", ICD_codes)
 ICD10_codes = filter(row -> row.SYSTEM == "ICD-10-CM", ICD_codes)
 
 # import vocab tables
-df_concept = CSV.read("/data/ursa_software/riqi_code/Vocabularies/20230301/CONCEPT.csv") |> DataFrame
+df_concept = CSV.read("/data/ursa_software/riqi_code/Vocabularies/20230301/CONCEPT.csv", DataFrame)
 
-df_concept_relationship = CSV.read("/data/ursa_software/riqi_code/Vocabularies/20230301/CONCEPT_RELATIONSHIP.csv") |> DataFrame
+df_concept_relationship = CSV.read("/data/ursa_software/riqi_code/Vocabularies/20230301/CONCEPT_RELATIONSHIP.csv", DataFrame)
 
 # Remove decimal points from the ICD-10 codes in concept table
 df_concept.concept_code = replace.(df_concept.concept_code, "." => "")
