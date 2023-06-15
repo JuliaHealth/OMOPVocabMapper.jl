@@ -47,8 +47,8 @@ ICD10_SNOMED_MAP = rename!(join_ICD10_concept_relationship, :concept_id => :sour
 @assert count(ismissing,ICD10_SNOMED_MAP.OMOP_concept_id) == 3
 
 @info "Exporting results..."
-CSV.write("/data/ursa_research/n3c/mthakkal/radxup_project/highneeds/ICD9_OMOP_MAP.csv", ICD9_SNOMED_MAP)
-CSV.write("/data/ursa_research/n3c/mthakkal/radxup_project/highneeds/ICD10_OMOP_MAP.csv", ICD10_SNOMED_MAP)
+CSV.write("/data/ursa_research/n3c/OmopVocabMapper/ICD9_OMOP_MAP.csv", ICD9_SNOMED_MAP)
+CSV.write("/data/ursa_research/n3c/OmopVocabMapper/ICD10_OMOP_MAP.csv", ICD10_SNOMED_MAP)
 
 #/data/ursa_software/riqi_code/Vocabularies/20230301/ ---- vocab files
 
