@@ -15,7 +15,7 @@ Here is my workflow:
 
 1. `git pull` # Get the latest version before making changes
 1. Edit the code
-1. pbcopy <vocabmapper.jl # Copy file to clipboard
+1. `pbcopy <vocabmapper.jl` # Copy file to clipboard
 1. Paste code into file on Stronghold
 1. Run code on Stronghold
 1. If there's an error, repeat steps 2-5
