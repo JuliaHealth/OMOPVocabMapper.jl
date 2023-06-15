@@ -10,6 +10,14 @@ ICD_codes = CSV.read("/data/ursa_research/radxup/daluthge/highneeds.icd.csv.2023
 df_concept = CSV.read("/data/ursa_software/riqi_code/Vocabularies/20230301/CONCEPT.csv", DataFrame)
 df_concept_relationship = CSV.read("/data/ursa_software/riqi_code/Vocabularies/20230301/CONCEPT_RELATIONSHIP.csv", DataFrame)
 
+# Show description of DataFrame, including number of unique values in each row
+function fully_describe(DF)
+	q = describe(DF)
+	q.num_unique_vals = map(x->length(DF[!,x] |> unique), names(DF))
+	show(q, allrows=true, allcols=true) 
+end
+fully_describe(ICD_codes)
+
 @info "Mapping codes..."
 # Remove decimal points from the ICD codes
 ICD_codes.VALUE = replace.(ICD_codes.VALUE, "." => "")
