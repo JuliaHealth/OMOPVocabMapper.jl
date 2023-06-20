@@ -14,9 +14,16 @@ df_concept_relationship = CSV.read("/data/ursa_software/riqi_code/Vocabularies/2
 function fully_describe(DF)
 	q = describe(DF)
 	q.num_unique_vals = map(x->length(DF[!,x] |> unique), names(DF))
-	show(q, allrows=true, allcols=true) 
+	q
 end
-fully_describe(ICD_codes)
+println()
+println("Summary of ICD Codes:")
+show(
+	fully_describe(ICD_codes),
+	allrows=true, allcols=true
+) 
+println()
+println()
 
 @info "Mapping codes..."
 # Remove decimal points from the ICD codes
