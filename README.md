@@ -23,7 +23,7 @@ Here is my workflow:
 
 
 ## How to use OmopVocabMapper
-1. Clone the repo to your local machine folder and navigate to that folder- git clone httplink
+1. Clone the repo to your local machine folder and navigate to that folder- git clone [httplink](https://github.com/bcbi/OmopVocabMapper.git)
 2. open the icd_codes.csv (It is a blank file with first row indicating columns ICD, system, ICD_string, phecode_string, category_num, category) file from the repo folder and add the ICD codes you want to map to OMOP. Columns ICD and system are the required columns.
 3. Copy the CONCEPT.CSV and CONCEPT_RELATIONSHIP.CSV from the athena vocabulary into the repo folder.
 4. run the julia code to do the mapping julia OmopVocabMapper.jl 
