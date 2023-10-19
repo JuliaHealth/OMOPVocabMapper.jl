@@ -23,6 +23,6 @@ Here is my workflow:
 
 
 ## How to use OmopVocabMapper
-1. Clone the repo to your local machine
-2. 
+1. Clone the repo to your local machine folder
+2. open the icd_codes.csv (It is a blank file with first row indicating columns ICD, system, ICD_string, phecode_string, category_num, category) file from the repo folder and add the ICD codes you want to map to OMOP in the 
 
