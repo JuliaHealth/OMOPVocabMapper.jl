@@ -20,5 +20,9 @@ Here is my workflow:
 1. Run code on Stronghold
 1. If there's an error, repeat steps 2-5
 1. Commit the changes and push to the repo
- 
+
+
+## How to use OmopVocabMapper
+1. Clone the repo to your local machine
+2. 
 
