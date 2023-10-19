@@ -1,9 +1,9 @@
 using CSV, DataFrames, StatsBase, Query, Dates
 
-println("Enter directory for current ICD codes (/Users/mounikathakkallapally/Desktop/Brown/OmopVocabMapper/??):")
-# current dataset: breast_cancer
-working_drive = readline(stdin)
-cd("/Users/mounikathakkallapally/Desktop/Brown/OmopVocabMapper/$working_drive")
+# println("Enter the folder name for current ICD codes (/Users/mounikathakkallapally/Desktop/Brown/OmopVocabMapper/??):")
+# # current dataset: breast_cancer
+# working_drive = readline(stdin)
+# cd("/Users/mounikathakkallapally/Desktop/Brown/OmopVocabMapper/$working_drive")
 
 #load the csv files
 ICD_codes = CSV.read("icd_codes.CSV", DataFrame)
@@ -14,9 +14,9 @@ ICD9_codes = filter(row -> row.system == "ICD9CM", ICD_codes)
 
 ICD10_codes = filter(row -> row.system == "ICD10CM", ICD_codes)
 
-df_concept = CSV.read("/Users/mounikathakkallapally/Desktop/Brown/user/mthakkal/Vocabularies/CONCEPT.CSV", DataFrame)
+df_concept = CSV.read("CONCEPT.CSV", DataFrame)
 
-df_concept_relationship = CSV.read("/Users/mounikathakkallapally/Desktop/Brown/user/mthakkal/Vocabularies/CONCEPT_RELATIONSHIP.csv", DataFrame)
+df_concept_relationship = CSV.read("CONCEPT_RELATIONSHIP.csv", DataFrame)
 
 # Remove decimal points from the ICD-10 code column
 df_concept.concept_code = replace.(df_concept.concept_code, "." => "")
@@ -97,7 +97,9 @@ test_filter = filter(row -> row.concept_id_2 == join_ICD9_concept.concept_id, df
 
 combined = vcat(icd9_omop_standard, icd10_omop_standard)
 
-CSV.write("/Users/mounikathakkallapally/Desktop/Brown/OmopVocabMapper/$working_drive/omopmappedcodes_$working_drive.CSV", combined)
+# CSV.write("/Users/mounikathakkallapally/Desktop/Brown/OmopVocabMapper/$working_drive/omopmappedcodes_$working_drive.CSV", combined)
+
+CSV.write("omopmappedcodes.CSV", combined)
 
 
 #/data/ursa_software/riqi_code/Vocabularies/20230301/ ---- vocab files
