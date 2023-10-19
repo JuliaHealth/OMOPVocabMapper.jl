@@ -14,12 +14,18 @@ ICD9_codes = filter(row -> row.system == "ICD9CM", ICD_codes)
 
 ICD10_codes = filter(row -> row.system == "ICD10CM", ICD_codes)
 
-df_concept = CSV.read("CONCEPT.CSV", DataFrame)
+println("successfully loaded the ICD codes")
+
+
+df_concept = CSV.read("CONCEPT.csv", DataFrame)
 
 df_concept_relationship = CSV.read("CONCEPT_RELATIONSHIP.csv", DataFrame)
 
+
+
 # Remove decimal points from the ICD-10 code column
 df_concept.concept_code = replace.(df_concept.concept_code, "." => "")
+println("successfully loaded the vocabulary files")
 
 #sanity check
 filter(row -> row.concept_code == "F81.0", df_concept)
@@ -99,9 +105,9 @@ combined = vcat(icd9_omop_standard, icd10_omop_standard)
 
 # CSV.write("/Users/mounikathakkallapally/Desktop/Brown/OmopVocabMapper/$working_drive/omopmappedcodes_$working_drive.CSV", combined)
 
-CSV.write("omopmappedcodes.CSV", combined)
+CSV.write("omopmappedcodes.csv", combined)
 
-
+println("successfully mapped the ICD codes to OMOP please check the repo folder with the name omopmappedcodes.CSV file for the OMOP codes")
 #/data/ursa_software/riqi_code/Vocabularies/20230301/ ---- vocab files
 
 # SELECT distinct cr.concept_id_2 AS snomed_concept_id,  c.concept_code AS icd10_code
