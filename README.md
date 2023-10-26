@@ -23,10 +23,11 @@ Here is my workflow:
 
 ## Packages required
 To run the OmopVocabMapper the following julia packages are required
-
-julia > ]
-
-pkg > add CSV, DataFrames, StatsBase, Query, Dates
+1. In Julia REPL
+   julia > ] (Type ] (right bracket). You don’t have to hit Return to enter into package mode)
+2. pkg > add CSV DataFrames StatsBase Query Dates
+3. Hit backspace or Control-C to exit the package manager
+4. continue with the below instructions
 
 ## How to use OmopVocabMapper
 1. Clone the repo to your local machine folder and navigate to that folder- git clone [httplink](https://github.com/bcbi/OmopVocabMapper.git)
