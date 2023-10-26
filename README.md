@@ -21,6 +21,12 @@ Here is my workflow:
 1. If there's an error, repeat steps 2-5
 1. Commit the changes and push to the repo
 
+## Packages required
+To run the OmopVocabMapper the following julia packages are required
+
+julia > ]
+
+pkg > add CSV, DataFrames, StatsBase, Query, Dates
 
 ## How to use OmopVocabMapper
 1. Clone the repo to your local machine folder and navigate to that folder- git clone [httplink](https://github.com/bcbi/OmopVocabMapper.git)
