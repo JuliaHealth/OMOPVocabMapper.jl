@@ -7,28 +7,26 @@ using CSV, DataFrames, StatsBase, Query, Dates
 
 #load the csv files
 ICD_codes = CSV.read("icd_codes.CSV", DataFrame)
-
+# Remove decimal points from the ICD code
 ICD_codes.VALUE = replace.(ICD_codes.ICD, "." => "")
-
+# Filter ICD9 and ICD10 codes
 ICD9_codes = filter(row -> row.system == "ICD9CM", ICD_codes)
 
 ICD10_codes = filter(row -> row.system == "ICD10CM", ICD_codes)
 
 println("successfully loaded the ICD codes")
 
-
+# Read CONCEPT.csv and CONCEPT_RELATIONSHIP.csv files
 df_concept = CSV.read("CONCEPT.csv", DataFrame)
 
 df_concept_relationship = CSV.read("CONCEPT_RELATIONSHIP.csv", DataFrame)
-
-
 
 # Remove decimal points from the ICD-10 code column
 df_concept.concept_code = replace.(df_concept.concept_code, "." => "")
 println("successfully loaded the vocabulary files")
 
-#sanity check
-filter(row -> row.concept_code == "F81.0", df_concept)
+# #sanity check
+# filter(row -> row.concept_code == "F81.0", df_concept)
 
 #filter maps to relationship
 df_concept_relationship_mapsto = filter(row -> (row.relationship_id == "Maps to"|| row.relationship_id == "Maps to value"), df_concept_relationship)
@@ -54,6 +52,8 @@ df_concept_ICD10_select = select(df_concept_ICD10, :concept_id, :concept_code, :
 
 rename!(df_concept_ICD10_select, :concept_name => :source_concept_name, :domain_id => :source_domain_id, :vocabulary_id => :source_vocabulary_id)
 
+
+#processing ICD 9 codes
 
 #left join ICD9_codes and with the concept table on VALUE and concept_code
 
@@ -81,14 +81,18 @@ count(ismissing,icd9_omop_standard.omop_concept_id)
 
 join_ICD10_concept = leftjoin(ICD10_codes, df_concept_ICD10_select, on = (:VALUE => :concept_code))
 
+join_ICD10_concept_filled = coalesce.(join_ICD10_concept, 0) # Assuming 0 is an appropriate default value
+
 # left join join_ICD10_concept and df_concept_relationship_mapsto on concept_id and concept_id_1
-join_ICD10_concept_relationship = leftjoin(join_ICD10_concept, df_concept_relationship_mapsto_select, on = (:concept_id => :concept_id_1))
+join_ICD10_concept_relationship = leftjoin(join_ICD10_concept_filled, df_concept_relationship_mapsto_select, on = (:concept_id => :concept_id_1))
 
 ICD10_SNOMED_MAP = rename(join_ICD10_concept_relationship, :concept_id => :source_concept_id, :concept_id_2 => :omop_concept_id)
 
 #adding the concept name and domain id for the standard omop concept id---- for doing this join the above dataframe with the concept table on omop_concept_id and concept_id in concept table
 
-icd10_omop_standard = leftjoin(ICD10_SNOMED_MAP, df_concept, on = (:omop_concept_id => :concept_id))
+ICD10_SNOMED_MAP_filled = coalesce.(ICD10_SNOMED_MAP, 0) # Assuming 0 is an appropriate default value
+icd10_omop_standard = leftjoin(ICD10_SNOMED_MAP_filled, df_concept, on = (:omop_concept_id => :concept_id))
+
 select!(icd10_omop_standard, Not(:concept_code))
 
 #missing 3
@@ -115,6 +119,8 @@ println("successfully mapped the ICD codes to OMOP please check the repo folder 
 # JOIN cdm.concept c ON c.concept_id = cr.concept_id_1
 # WHERE cr.relationship_id = 'Maps to' -- Use 'Maps to' relationship for ICD-10 to SNOMED mapping
 #   AND c.concept_code in ('F81.0','F81.2', 'F81.8', '315.0', '315.00')
+
+
 
 
 
