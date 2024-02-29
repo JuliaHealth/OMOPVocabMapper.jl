@@ -61,13 +61,15 @@ join_ICD9_concept = leftjoin(ICD9_codes, df_concept_ICD9_select, on = ( :VALUE =
 
 
 # left join join_ICD_concept and df_concept_relationship_mapsto on concept_id and concept_id_1
-join_ICD9_concept_relationship = leftjoin(join_ICD9_concept, df_concept_relationship_mapsto_select, on = (:concept_id => :concept_id_1))
+
+join_ICD9_concept_filled = coalesce.(join_ICD9_concept, 0)
+join_ICD9_concept_relationship = leftjoin(join_ICD9_concept_filled, df_concept_relationship_mapsto_select, on = (:concept_id => :concept_id_1))
 
 ICD9_SNOMED_MAP = rename(join_ICD9_concept_relationship, :concept_id => :source_concept_id, :concept_id_2 => :omop_concept_id)
 
 #adding the concept name and domain id for the standard omop concept id---- for doing this join the above dataframe with the concept table on omop_concept_id and concept_id in concept table
-
-icd9_omop_standard = leftjoin(ICD9_SNOMED_MAP, df_concept, on = (:omop_concept_id => :concept_id))
+ICD9_SNOMED_MAP_filled = coalesce.(ICD9_SNOMED_MAP, 0)
+icd9_omop_standard = leftjoin(ICD9_SNOMED_MAP_filled, df_concept, on = (:omop_concept_id => :concept_id))
 
 select!(icd9_omop_standard, Not(:concept_code))
 #missing 4
@@ -119,8 +121,3 @@ println("successfully mapped the ICD codes to OMOP please check the repo folder 
 # JOIN cdm.concept c ON c.concept_id = cr.concept_id_1
 # WHERE cr.relationship_id = 'Maps to' -- Use 'Maps to' relationship for ICD-10 to SNOMED mapping
 #   AND c.concept_code in ('F81.0','F81.2', 'F81.8', '315.0', '315.00')
-
-
-
-
-
