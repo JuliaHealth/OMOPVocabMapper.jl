@@ -1,37 +1,86 @@
 # OmopVocabMapper
 
-OmopVocabMapper is a Julia-based library for mapping various medical vocabularies to the OMOP standard vocabulary. It provides functionalities to convert terminology codes from different sources, starting with ICD (International Classification of Diseases), to the corresponding OMOP concept IDs.
+OmopVocabMapper is a Julia package for mapping various medical vocabularies to the OMOP standard vocabulary. It provides functionalities to convert terminology codes from different sources, starting with ICD (International Classification of Diseases) to the corresponding OMOP concept IDs, with the ability to indicate ICD codes that map to multiple OMOP concept IDs.
 
 ## Features
 
-- Mapping ICD codes to OMOP concept IDs: The library currently supports the mapping of ICD codes to their respective concept IDs in the OMOP vocabulary.
+- Mapping ICD codes to OMOP concept IDs: The library currently supports the mapping of ICD9CM and ICD10CM codes to their respective OMOP concept IDs.
 - Reusability: We are actively working on expanding the functionality to support mapping of additional vocabularies like RXNORM, CPT, NDC, and more, making the library versatile and adaptable to different terminologies.
 
-## Development
+## installation 
 
-It is much easier to import code into Stronghold than to export.
-So, I like to avoid writing new code in Stronghold.
-Here is my workflow:
+1. **Clone the repository:**
 
-1. `git pull` # Get the latest version before making changes
-1. Edit the code
-1. `pbcopy <OmopVocabMapper.jl` # Copy file to clipboard
-1. Paste code into file on Stronghold
-1. Run code on Stronghold
-1. If there's an error, repeat steps 2-5
-1. Commit the changes and push to the repo
+```
+sh
+git clone https://github.com/bcbi/OMOPVocabMapper.jl.git
+cd OMOPVocabMapper
+```
 
-## Packages required
-To run the OmopVocabMapper the following julia packages are required
-1. In Julia REPL
-   julia > ] (Type ] (right bracket). You don’t have to hit Return to enter into package mode)
-2. pkg > add CSV DataFrames StatsBase Query Dates
-3. Hit backspace or Control-C to exit the package manager
-4. continue with the below instructions
+2. **Open Julia and activate the package environment:**
 
-## How to use OmopVocabMapper
-1. Clone the repo to your local machine folder and navigate to that folder- git clone [httplink](https://github.com/bcbi/OmopVocabMapper.git)
-2. open the icd_codes.csv (It is a blank file with first row indicating columns ICD, system, ICD_string, phecode_string, category_num, category) file from the repo folder and add the ICD codes you want to map to OMOP. Columns ICD and system are the required columns.
-3. Copy the CONCEPT.CSV and CONCEPT_RELATIONSHIP.CSV from the athena vocabulary into the repo folder.
-4. run the julia code to do the mapping julia OmopVocabMapper.jl 
+```
+using Pkg
+Pkg.activate(".")
+Pkg.instantiate()
+```
+
+## Uage
+
+### Preparing the Data
+
+Ensure you have the following CSV files in your working directory:
+- 'icd_codes.csv': Contains the ICD codes. Input file structure ICD, system (ICD9CM, ICD10CM)
+- 'CONCEPT.csv' Vocabulary file from athena
+- 'CONCEPT_RELATIONSHIP.csv': Vocabulary file from athena
+
+### Running the Mapping
+
+1. **Include the module and use it in your script or Julia REPL:**
+
+    ```julia
+    include("src/OMOPVocabMapper.jl")
+    using .OMOPVocabMapper
+    ```
+
+2. **Call the `map_icd_to_omop` function:**
+
+    ```julia
+    OMOPVocabMapper.map_icd_to_omop(
+        "path/to/icd_codes.csv",
+        "path/to/CONCEPT.csv",
+        "path/to/CONCEPT_RELATIONSHIP.csv",
+        "path/to/output/omopmappedcodes.csv"
+    )
+    ```
+
+### Example
+
+Here’s an example of running the mapping from a script:
+
+1. Create a script named `run_mapping.jl`:
+
+    ```julia
+    # run_mapping.jl
+    include("src/OMOPVocabMapper.jl")
+    using .OMOPVocabMapper
+
+    OMOPVocabMapper.map_icd_to_omop(
+        "icd_codes.csv",
+        "CONCEPT.csv",
+        "CONCEPT_RELATIONSHIP.csv",
+        "omopmappedcodes.csv"
+    )
+    ```
+
+2. Run the script in Julia:
+
+    ```julia
+    include("run_mapping.jl")
+    ```
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
