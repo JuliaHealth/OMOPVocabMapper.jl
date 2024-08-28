@@ -5,18 +5,19 @@ using CSV, DataFrames, StatsBase, Query, Dates, InlineStrings
 # Function to process ICD codes
 function process_ICD_codes(ICD_type::String, df_concept::DataFrame, df_concept_relationship_mapsto_select::DataFrame, ICD_codes::DataFrame)
     println("Processing ICD type: $ICD_type")
-
+    # filter df_concept file for the ICD type. Just to limit the category
     df_concept_ICD = filter(row -> row.vocabulary_id == ICD_type, df_concept)
     println("Number of entries in concept dataframe for $ICD_type: $(nrow(df_concept_ICD))")
     if nrow(df_concept_ICD) == 0
         println("Warning: No entries found for ICD type $ICD_type in concept file.")
         return DataFrame()
     end
+    
+    # 
 
     df_concept_ICD_select = select(df_concept_ICD, :concept_id, :concept_code, :concept_name, :domain_id, :vocabulary_id)
     rename!(df_concept_ICD_select, :concept_name => :source_concept_name, :domain_id => :source_domain_id, :vocabulary_id => :source_vocabulary_id)
-    # println("First few entries in df_concept_ICD_select:")
-    # println(first(df_concept_ICD_select, 5))
+
 
     filtered_ICD_codes = filter(row -> row.system == ICD_type, ICD_codes)
     println("Number of entries in ICD codes dataframe for $ICD_type: $(nrow(filtered_ICD_codes))")
@@ -24,16 +25,9 @@ function process_ICD_codes(ICD_type::String, df_concept::DataFrame, df_concept_r
         println("Warning: No entries found for ICD type $ICD_type in ICD codes file.")
         return DataFrame()
     end
-    # println("First few entries in filtered_ICD_codes:")
-    # println(first(filtered_ICD_codes, 5))
 
-    # println("Joining filtered ICD codes with concept table...")
     join_ICD_concept = leftjoin(filtered_ICD_codes, df_concept_ICD_select, on = (:VALUE => :concept_code))
-    # println("Join completed. Resulting DataFrame has $(nrow(join_ICD_concept)) rows.")
-    # println("First few entries in join_ICD_concept:")
-    # println(first(join_ICD_concept, 5))
 
-    # println("Coalescing missing values...")
     join_ICD_concept_filled = coalesce.(join_ICD_concept, 0)
 
     # println("Joining with concept relationship table...")
@@ -50,7 +44,7 @@ function process_ICD_codes(ICD_type::String, df_concept::DataFrame, df_concept_r
 
     # println("Performing final join with concept table...")
     icd_omop_standard = leftjoin(ICD_SNOMED_MAP_filled, df_concept, on = (:omop_concept_id => :concept_id))
-    select!(icd_omop_standard, Not(:concept_code))
+    # select!(icd_omop_standard, Not(:concept_code))
     # println("Final join completed. Resulting DataFrame has $(nrow(icd_omop_standard)) rows.")
     # println("First few entries in icd_omop_standard:")
     # println(first(icd_omop_standard, 5))
