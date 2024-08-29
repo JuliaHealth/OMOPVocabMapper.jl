@@ -12,8 +12,6 @@ function process_ICD_codes(ICD_type::String, df_concept::DataFrame, df_concept_r
         println("Warning: No entries found for ICD type $ICD_type in concept file.")
         return DataFrame()
     end
-    
-    # 
 
     df_concept_ICD_select = select(df_concept_ICD, :concept_id, :concept_code, :concept_name, :domain_id, :vocabulary_id)
     rename!(df_concept_ICD_select, :concept_name => :source_concept_name, :domain_id => :source_domain_id, :vocabulary_id => :source_vocabulary_id)
@@ -30,22 +28,18 @@ function process_ICD_codes(ICD_type::String, df_concept::DataFrame, df_concept_r
 
     join_ICD_concept_filled = coalesce.(join_ICD_concept, 0)
 
-    # println("Joining with concept relationship table...")
+    # Joining with concept relationship table
     join_ICD_concept_relationship = leftjoin(join_ICD_concept_filled, df_concept_relationship_mapsto_select, on = (:concept_id => :concept_id_1))
-    # println("Join completed. Resulting DataFrame has $(nrow(join_ICD_concept_relationship)) rows.")
-    # println("First few entries in join_ICD_concept_relationship:")
-    # println(first(join_ICD_concept_relationship, 5))
 
-    # println("Renaming columns...")
+    # Renaming columns
     ICD_SNOMED_MAP = rename(join_ICD_concept_relationship, :concept_id => :source_concept_id, :concept_id_2 => :omop_concept_id)
 
-    # println("Coalescing missing values...")
     ICD_SNOMED_MAP_filled = coalesce.(ICD_SNOMED_MAP, 0)
 
     # println("Performing final join with concept table...")
     icd_omop_standard = leftjoin(ICD_SNOMED_MAP_filled, df_concept, on = (:omop_concept_id => :concept_id))
     # select!(icd_omop_standard, Not(:concept_code))
-    # println("Final join completed. Resulting DataFrame has $(nrow(icd_omop_standard)) rows.")
+    # println("Final join completed. Resulting Frame has $(nrow(icd_omop_standard)) rows.")
     # println("First few entries in icd_omop_standard:")
     # println(first(icd_omop_standard, 5))
 
