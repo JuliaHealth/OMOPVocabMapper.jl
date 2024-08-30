@@ -39,8 +39,7 @@ Ensure you have the following CSV files in your working directory:
 1. **Include the module and use it in your script or Julia REPL:**
 
     ```julia
-    include("src/OMOPVocabMapper.jl")
-    using .OMOPVocabMapper
+    using OMOPVocabMapper
     ```
 
 2. **Call the `map_icd_to_omop` function:**

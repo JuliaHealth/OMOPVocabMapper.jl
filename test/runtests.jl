@@ -1,14 +1,30 @@
-# test/test_mapping.jl
 using OMOPVocabMapper
+using Test
+using CSV  # Import the CSV package to read the output file
+using DataFrames
 
-# Ensure paths are correct
-icd_codes_path = "/Users/mounikathakkallapally/Documents/bcbi-projects/OMOPVocabMapper.jl/icd_codes.csv"
-concept_path = "/Users/mounikathakkallapally/Documents/bcbi-projects/OMOPVocabMapper.jl/CONCEPT.csv"
-concept_relationship_path = "/Users/mounikathakkallapally/Documents/bcbi-projects/OMOPVocabMapper.jl/CONCEPT_RELATIONSHIP.csv"
-output_path = "omopmappedcodes.csv"
+# Define relative paths to the synthetic input files
+icd_codes_file = joinpath(@__DIR__, "data/ICD_codes.csv")
+concept_file = joinpath(@__DIR__, "data/concept.csv")
+concept_relationship_file = joinpath(@__DIR__, "data/concept_relationship.csv")
+output_file = joinpath(@__DIR__, "data/output/omopmappedcodes.csv")
 
-println("Starting the test script...")
+# Ensure the output directory exists
+if !isdir(joinpath(@__DIR__, "output"))
+    mkpath(joinpath(@__DIR__, "output"))
+end
 
-OMOPVocabMapper.map_icd_to_omop(icd_codes_path, concept_path, concept_relationship_path, output_path)
+@testset "My Function Tests" begin
+    # Call the function without @test since we are not testing the return value
+    map_icd_to_omop(icd_codes_file, concept_file, concept_relationship_file, output_file)
+    
+    # Test that the output file exists
+    @test isfile(output_file)
 
-println("Test script completed.")
+    # Optionally, read the output file and check its content
+    output_data = CSV.read(output_file, DataFrame)
+
+    # Example checks (you can add more specific tests based on expected content)
+    @test !isempty(output_data)  # Ensure the output file is not empty
+    @test "ICD" in names(output_data)  # Check that a specific column exists
+end

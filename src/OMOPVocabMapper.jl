@@ -139,5 +139,5 @@ function map_icd_to_omop(icd_codes_file::String, concept_file::String, concept_r
         println("Error: ", e)
     end
 end
-
+export map_icd_to_omop
 end # module

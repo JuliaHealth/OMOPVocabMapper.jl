@@ -1,0 +1,5 @@
+concept_id_1,concept_id_2,relationship_id,valid_start_date,valid_end_date,invalid_reason
+1,100,Maps to,1/1/00,12/31/99,
+2,200,Maps to,1/1/00,12/31/99,
+3,300,Maps to,1/1/00,12/31/99,
+4,400,Maps to,1/1/00,12/31/99,
