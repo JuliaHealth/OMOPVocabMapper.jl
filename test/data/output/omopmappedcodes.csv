@@ -1,0 +1,5 @@
+ICD,system,VALUE,source_concept_id,source_concept_name,source_domain_id,source_vocabulary_id,omop_concept_id,relationship_id,concept_name,domain_id,vocabulary_id,concept_class_id,standard_concept,concept_code,valid_start_date,valid_end_date,invalid_reason,multiple_mappings
+C03,ICD9CM,C03,3,Concept C03,Condition,ICD9CM,300,Maps to,,,,,,,,,,false
+D04,ICD9CM,D04,4,Concept D04,Condition,ICD9CM,400,Maps to,,,,,,,,,,false
+A01,ICD10CM,A01,1,Concept A01,Condition,ICD10CM,100,Maps to,,,,,,,,,,false
+B02,ICD10CM,B02,2,Concept B02,Condition,ICD10CM,200,Maps to,,,,,,,,,,false
