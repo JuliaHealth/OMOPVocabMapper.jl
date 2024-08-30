@@ -8,7 +8,6 @@ OmopVocabMapper is a Julia package for mapping various medical vocabularies to t
 - Reusability: We are actively working on expanding the functionality to support mapping of additional vocabularies like RXNORM, CPT, NDC, and more, making the library versatile and adaptable to different terminologies.
 
 
-
 ## Uage
 
 ### Preparing the Data
@@ -19,7 +18,7 @@ Ensure you have the following CSV files in your working directory:
 - 'concept_relationship.csv': Vocabulary file from athena
 
 ### Downloading the vocabulary files from Athena
-- https://athena.ohdsi.org/search-terms/start
+- In Athena https://athena.ohdsi.org/search-terms/start go to the downloads and give the required information and download the files. All the vocabulary files will be downloaded but ensure to copy on the required concept.csv and concept_relationship.csv files to the working dircetory.
 
 ### Running the Mapping
 
