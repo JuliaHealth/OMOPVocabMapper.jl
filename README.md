@@ -7,23 +7,7 @@ OmopVocabMapper is a Julia package for mapping various medical vocabularies to t
 - Mapping ICD codes to OMOP concept IDs: The library currently supports the mapping of ICD9CM and ICD10CM codes to their respective OMOP concept IDs.
 - Reusability: We are actively working on expanding the functionality to support mapping of additional vocabularies like RXNORM, CPT, NDC, and more, making the library versatile and adaptable to different terminologies.
 
-## installation 
 
-1. **Clone the repository:**
-
-```
-sh
-git clone https://github.com/bcbi/OMOPVocabMapper.jl.git
-cd OMOPVocabMapper
-```
-
-2. **Open Julia and activate the package environment:**
-
-```
-using Pkg
-Pkg.activate(".")
-Pkg.instantiate()
-```
 
 ## Uage
 
@@ -31,24 +15,28 @@ Pkg.instantiate()
 
 Ensure you have the following CSV files in your working directory:
 - 'icd_codes.csv': Contains the ICD codes. Input file structure ICD, system (ICD9CM, ICD10CM)
-- 'CONCEPT.csv' Vocabulary file from athena
-- 'CONCEPT_RELATIONSHIP.csv': Vocabulary file from athena
+- 'concept.csv' Vocabulary file from athena
+- 'concept_relationship.csv': Vocabulary file from athena
+
+### Downloading the vocabulary files from Athena
+- https://athena.ohdsi.org/search-terms/start
 
 ### Running the Mapping
 
 1. **Include the module and use it in your script or Julia REPL:**
-
+    
     ```julia
+    Pkg.add("OMOPVocabMapper")
     using OMOPVocabMapper
     ```
 
 2. **Call the `map_icd_to_omop` function:**
 
     ```julia
-    OMOPVocabMapper.map_icd_to_omop(
+    map_icd_to_omop(
         "path/to/icd_codes.csv",
-        "path/to/CONCEPT.csv",
-        "path/to/CONCEPT_RELATIONSHIP.csv",
+        "path/to/concept.csv",
+        "path/to/concept_relationship.csv",
         "path/to/output/omopmappedcodes.csv"
     )
     ```
@@ -61,14 +49,14 @@ Here’s an example of running the mapping from a script:
 
     ```julia
     # run_mapping.jl
-    include("src/OMOPVocabMapper.jl")
-    using .OMOPVocabMapper
+    Pkg.add("OMOPVocabMapper")
+    using OMOPVocabMapper
 
     OMOPVocabMapper.map_icd_to_omop(
-        "icd_codes.csv",
-        "CONCEPT.csv",
-        "CONCEPT_RELATIONSHIP.csv",
-        "omopmappedcodes.csv"
+        "path/to/icd_codes.csv",
+        "path/to/concept.csv",
+        "path/to/concept_relationship.csv",
+        "path/to/omopmappedcodes.csv"
     )
     ```
 
