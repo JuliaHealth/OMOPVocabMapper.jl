@@ -13,7 +13,7 @@ OmopVocabMapper is a Julia package for mapping various medical vocabularies to t
 ### Preparing the Data
 
 Ensure you have the following CSV files in your working directory:
-- 'icd_codes.csv': Contains the ICD codes. Input file structure ICD, system (ICD9CM, ICD10CM)
+- 'icd_codes.csv': Contains the ICD codes. Input file structure ICD, system (ICD9CM, ICD10CM) to match with the concept.csv vocab files 
 - 'concept.csv' Vocabulary file from athena
 - 'concept_relationship.csv': Vocabulary file from athena
 
