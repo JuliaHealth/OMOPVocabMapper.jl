@@ -70,3 +70,18 @@ Here’s an example of running the mapping from a script:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## Citation Information
+
+[![DOI](https://zenodo.org/badge/651648334.svg)](https://doi.org/10.5281/zenodo.13883120)
+
+@software{OMOPVocabMapper,
+author = {Thakkallapally, Mounika},
+doi = {10.5281/zenodo.13883120},
+title = {{OMOPVocabMapper 0.1.0}},
+version = {0.1.0},
+year = {2024}
+}
+
+
+
+
