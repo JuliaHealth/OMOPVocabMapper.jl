@@ -72,19 +72,6 @@ Here’s an example of running the mapping from a script:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Citation Information
-
-If you use OMOPVocabMapper in your work, please cite it as follows:
-
-```bibtex
-@software{OMOPVocabMapper,
-author = {Thakkallapally, Mounika},
-doi = {10.5281/zenodo.13883120},
-title = {{OMOPVocabMapper 0.1.0}},
-version = {0.1.0},
-year = {2024}
-}
-
 
 
 
