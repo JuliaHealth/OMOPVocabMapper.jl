@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the following metadata."
+title: "OMOPVocabMapper 0.1.0"
+version: "v0.1.0"
+doi: "10.5281/zenodo.13883120"
+date-released: 2024-10-02
+authors:
+  - family-names: "Thakkallapally"
+    given-names: "Mounika"
+affiliation: "Brown Center for Biomedical Informatics"
+repository-code: "https://github.com/bcbi/OMOPVocabMapper.jl.git"
+license: "MIT"
