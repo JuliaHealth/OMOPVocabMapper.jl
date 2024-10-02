@@ -1,5 +1,7 @@
 # OmopVocabMapper
 
+[![DOI](https://zenodo.org/badge/651648334.svg)](https://doi.org/10.5281/zenodo.13883120)
+
 OmopVocabMapper is a Julia package for mapping various medical vocabularies to the OMOP standard vocabulary. It provides functionalities to convert terminology codes from different sources, starting with ICD (International Classification of Diseases) to the corresponding OMOP concept IDs, with the ability to indicate ICD codes that map to multiple OMOP concept IDs.
 
 ## Features
@@ -72,8 +74,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Citation Information
 
-[![DOI](https://zenodo.org/badge/651648334.svg)](https://doi.org/10.5281/zenodo.13883120)
+If you use OMOPVocabMapper in your work, please cite it as follows:
 
+```bibtex
 @software{OMOPVocabMapper,
 author = {Thakkallapally, Mounika},
 doi = {10.5281/zenodo.13883120},
