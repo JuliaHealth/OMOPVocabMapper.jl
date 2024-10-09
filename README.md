@@ -55,6 +55,7 @@ Your CSV file should look like the following:
 1. **Include the module and use it in your script or Julia REPL:**
     
     ```julia
+    using Pkg
     Pkg.add("OMOPVocabMapper")
     using OMOPVocabMapper
     ```
