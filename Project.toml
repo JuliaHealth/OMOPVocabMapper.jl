@@ -1,7 +1,7 @@
 name = "OMOPVocabMapper"
 uuid = "fc9e345c-e35d-43ed-87a7-513e2d0ff273"
 authors = ["Mounika Thakkallapally <mounika_thakkallapally@brown.edu> and contributors"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
