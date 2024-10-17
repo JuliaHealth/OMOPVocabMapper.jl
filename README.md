@@ -77,7 +77,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Reference
 
-1.	Thakkallapally M, Bradenday J, Aluthge D, Sarkar IN, Crowley KM, Chen E. OMOPVocabMapper: A Tool for Mapping ICD Codes to OMOP Concepts. AMIA 2024 Annual Symposium. [Poster Abstract] - Accepted
+Thakkallapally M, Bradenday J, Aluthge D, Sarkar IN, Crowley KM, Chen E. OMOPVocabMapper: A Tool for Mapping ICD Codes to OMOP Concepts. AMIA 2024 Annual Symposium. [Poster Abstract] - Accepted
 
 
 
